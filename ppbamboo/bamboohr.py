@@ -75,3 +75,13 @@ class BambooHR(object):
             return result[bamboo_fields[0]]
         else:
             return result
+
+    def find_accounts_by_email(self, email):
+        log.debug('Looking for accounts with email address: %s' % email)
+        ids = []
+        for bamboo_id, bamboo_fields in self.get_directory().items():
+            if bamboo_fields.get('workEmail') == email:
+                ids.append(bamboo_id)
+        n = len(ids)
+        log.debug('Found %s account%s with email address %s: %s' % (n, '' if n == 1 else 's', email, ', '.join(ids)))
+        return ids
